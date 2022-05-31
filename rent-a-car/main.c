@@ -8,14 +8,15 @@ int main(void) {
 
 	int odgovor = 1;
 
-	printf("test");
-
 	char* datotekaKorisnici = "korisnici.bin";
 	char* datotekaAutomobili = "automobili.bin";
 	char* racun = "racun.txt";
 
+	kreiranjeDatoteke(datotekaKorisnici);
+	kreiranjeDatoteke(datotekaAutomobili);
+
 	while (odgovor) {
-		odgovor = izbornik();
+		odgovor = izbornik(datotekaKorisnici, datotekaAutomobili, racun);
 	}
 
 	printf("\nKraj programa");

@@ -14,8 +14,9 @@ typedef struct korisnik {
 typedef struct automobil {
 	int id;
 	char marka[25];
+	char model[25];
 	int godiste;
-	char boja[20];
+	char boja[25];
 	int cijenaPoDanu;
 	int trenutnoPosuden;
 	int idKorisnika;
