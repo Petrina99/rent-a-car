@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "3ee3bbb3-c585-425f-8429-9e2a5629b29d": {
+      "ProjectGuid": "3ee3bbb3-c585-425f-8429-9e2a5629b29d",
+      "DisplayName": "rent-a-car",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
