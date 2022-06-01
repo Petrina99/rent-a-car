@@ -1,5 +1,5 @@
 #ifndef DATATYPE_H
-#define DATATYPE_h
+#define DATATYPE_H
 
 typedef struct korisnik {
 	int id;
