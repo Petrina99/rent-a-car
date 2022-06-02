@@ -1,5 +1,4 @@
 ﻿  functions.c
-D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(47,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
   izbornik.c
   main.c
   Generating Code...
