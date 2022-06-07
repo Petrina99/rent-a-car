@@ -1,4 +1,7 @@
 ﻿  functions.c
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(228,22): warning C4090: 'function': different 'const' qualifiers
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(228,37): warning C4090: 'function': different 'const' qualifiers
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(231,14): warning C4090: 'return': different 'const' qualifiers
   izbornik.c
   main.c
   Generating Code...

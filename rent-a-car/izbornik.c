@@ -10,22 +10,23 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 	printf("Odaberite jednu od ponudenih opcija: \n\n");
 	printf("====================================\n\n");
 
-	printf("Opcija 1: Dodavanje korisnika\n");
-	printf("Opcija 2: Dodavanje automobila\n");
-	printf("Opcija 3: Ispisi sve korisnike\n");
-	printf("Opcija 4: Ispisi sve automobile\n");
-	printf("Opcija 5: Pretrazi korisnika po ID-u\n");
-	printf("Opcija 6: Pretrazi  automobil po ID-u\n");
-	printf("Opcija 7: Pretrazi korisnika po prezimenu:\n");
-	printf("Opcija 8: Pretrazi automobil po marki:\n");
-	printf("Opcija 9: Ispisi slobodne automobile\n");
-	printf("Opcija 10: Ispisi korisnike koji trenutno iznajmljuju automobil\n");
-	printf("Opcija 11: Azuriraj korisnika\n");
-	printf("Opcija 12: Azuriraj automobil\n");
-	printf("Opcija 13: Obrisi automobil\n");
-	printf("Opcija 14: Obrisi korisnika\n");
-	printf("Opcija 15: Iznajmi automobil\n");
-	printf("Opcija 16: Kraj programa\n");
+	printf("[ 1 ]: Dodavanje korisnika\n");
+	printf("[ 2 ]: Dodavanje automobila\n");
+	printf("[ 3 ]: Ispisi sve korisnike\n");
+	printf("[ 4 ]: Ispisi sve automobile\n");
+	printf("[ 5 ]: Sortiraj automobile po cijeni\n");
+	printf("[ 6 ]: Pretrazi korisnika po ID-u\n");
+	printf("[ 7 ]: Pretrazi  automobil po ID-u\n");
+	printf("[ 8 ]: Pretrazi korisnika po prezimenu:\n");
+	printf("[ 9 ]: Pretrazi automobil po marki:\n");
+	printf("[ 10 ]: Ispisi slobodne automobile\n");
+	printf("[ 11 ]: Ispisi korisnike koji trenutno iznajmljuju automobil\n");
+	printf("[ 12 ]: Azuriraj korisnika\n");
+	printf("[ 13 ]: Azuriraj automobil\n");
+	printf("[ 14 ]: Obrisi automobil\n");
+	printf("[ 15 ]: Obrisi korisnika\n");
+	printf("[ 16 ]: Iznajmi automobil\n");
+	printf("[ 17 ]: Kraj programa\n");
 
 	printf("\n====================================\n\n");
 
@@ -65,10 +66,20 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
 
-		ispisiSveAutomobile(poljeAutomobila);
+		ispisiSveAutomobile(poljeAutomobila, 2);
 
 		break;
 	case 5:
+		if (poljeAutomobila != NULL) {
+			free(poljeAutomobila);
+			poljeAutomobila = NULL;
+		}
+
+		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
+
+		ispisiSveAutomobile(poljeAutomobila, 1);
+		break;
+	case 6:
 		if (poljeKorisnika != NULL) {
 			free(poljeKorisnika);
 			poljeKorisnika = NULL;
@@ -93,7 +104,7 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 		}
 
 		break;
-	case 6:
+	case 7:
 		if (poljeAutomobila != NULL) {
 			free(poljeAutomobila);
 			poljeAutomobila = NULL;
@@ -118,7 +129,35 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 		}
 
 		break;
+	case 8:
+		if (poljeKorisnika != NULL) {
+			free(poljeKorisnika);
+			poljeKorisnika = NULL;
+		}
+
+		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
+
+		if (poljeKorisnika == NULL) {
+			exit(EXIT_FAILURE);
+		}
+
+		pronadiKorisnikaPrezime(poljeKorisnika);
+		break;
 	case 9:
+		if (poljeAutomobila != NULL) {
+			free(poljeAutomobila);
+			poljeAutomobila = NULL;
+		}
+
+		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
+
+		if (poljeAutomobila == NULL) {
+			exit(EXIT_FAILURE);
+		}
+
+		pronadiAutomobilPoMarki(poljeAutomobila);
+		break;
+	case 10:
 		if (poljeAutomobila != NULL) {
 			free(poljeAutomobila);
 			poljeAutomobila = NULL;
@@ -132,7 +171,7 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		ispisiSlobodneAutomobile(poljeAutomobila);
 		break;
-	case 10:
+	case 11:
 		if (poljeKorisnika != NULL) {
 			free(poljeKorisnika);
 			poljeKorisnika = NULL;
@@ -146,7 +185,7 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		ispisiKorisnikeKojiIznajmljuju(poljeKorisnika);
 		break;
-	case 11:
+	case 12:
 		if (poljeKorisnika != NULL) {
 			free(poljeKorisnika);
 			poljeKorisnika = NULL;
@@ -160,7 +199,7 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		azurirajKorisnika(poljeKorisnika, datKorisnici);
 		break;
-	case 12:
+	case 13:
 		if (poljeAutomobila != NULL) {
 			free(poljeAutomobila);
 			poljeAutomobila = NULL;
@@ -174,7 +213,7 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		azurirajAutomobil(poljeAutomobila, datAuti);
 		break;
-	case 13:
+	case 14:
 		if (poljeAutomobila != NULL) {
 			free(poljeAutomobila);
 			poljeAutomobila = NULL;
@@ -188,7 +227,7 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		brisanjeAutomobila(poljeAutomobila, datAuti);
 		break;
-	case 14:
+	case 15:
 		if (poljeKorisnika != NULL) {
 			free(poljeKorisnika);
 			poljeKorisnika = NULL;

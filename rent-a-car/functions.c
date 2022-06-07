@@ -206,7 +206,33 @@ void ispisiSveKorisnike(const KORISNIK* const polje) {
 	}
 }
 
-void ispisiSveAutomobile(const AUTOMOBIL* const polje) {
+void zamjena(AUTOMOBIL* const veci, AUTOMOBIL* const manji) {
+	AUTOMOBIL temp = { 0 };
+	temp = *manji;
+	*manji = *veci;
+	*veci = temp;
+}
+
+void* sortitajPoCijeni(const AUTOMOBIL* polje) {
+
+	int min = -1;
+	for (int i = 0; i < brojAutomobila - 1; i++)
+	{
+		min = i;
+		for (int j = i + 1; j < brojAutomobila; j++)
+		{
+			if ((polje + j)->cijenaPoDanu < (polje + min)->cijenaPoDanu) {
+				min = j;
+			}
+		}
+		zamjena((polje + i), (polje + min));
+	}
+
+	return polje;
+}
+
+// nacin ovdje predstavlja jel ispisujemo automobile po ID-u ili po cijeni
+void ispisiSveAutomobile(const AUTOMOBIL* polje, int nacin) {
 	
 	if (polje == NULL) {
 		printf("Polje automobila prazno\n");
@@ -214,6 +240,10 @@ void ispisiSveAutomobile(const AUTOMOBIL* const polje) {
 	}
 
 	int i;
+
+	if (nacin == 1) {
+		polje = sortitajPoCijeni(polje);
+	}
 
 	for (i = 0; i < brojAutomobila; i++) {
 		printf("ID: %d  Marka: %s  Model: %s  Boja: %s  Godiste: %d.  Cijena po danu: %d KN  Trenutno posuden: %s  ID korisnika: %d\n\n",
@@ -227,6 +257,7 @@ void ispisiSveAutomobile(const AUTOMOBIL* const polje) {
 			(polje + i)->idKorisnika);
 	}
 }
+
 void* pronadiKorisnika(KORISNIK* const polje) {
 
 	if (polje == NULL) {
@@ -369,7 +400,7 @@ void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 
 	fseek(fp, sizeof(int), SEEK_CUR);
 
-	int i, trazeniId, counter = 0;
+	int i, trazeniId;
 
 	printf("Unesite ID automobila kojeg zelite obrisati: ");
 
@@ -381,13 +412,26 @@ void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 		}
 	} while (trazeniId < 1 || trazeniId > brojAutomobila);
 
+	AUTOMOBIL* pomocnoPolje = (AUTOMOBIL*)calloc(brojAutomobila - 1, sizeof(AUTOMOBIL));
+
+	int counter = 0;
+
 	for (i = 0; i < brojAutomobila; i++) {
 
 		if (trazeniId != (polje + i)->id) {
-			fwrite((polje + i), sizeof(AUTOMOBIL), 1, fp);
+			*(pomocnoPolje + counter) = *(polje + i);
+
+			if ((pomocnoPolje + counter)->id > trazeniId) {
+				(pomocnoPolje + counter)->id -= 1;
+			}
+
+			fwrite((pomocnoPolje + counter), sizeof(AUTOMOBIL), 1, fp);
 			counter++;
 		}
 	}
+
+	free(pomocnoPolje);
+	pomocnoPolje = NULL;
 
 	rewind(fp);
 
@@ -573,3 +617,86 @@ void azurirajAutomobil(AUTOMOBIL* polje, const char* const dat) {
 
 	fclose(fp);
 }
+
+
+void pronadiKorisnikaPrezime(KORISNIK* const polje) {
+	
+	if (polje == NULL) {
+		printf("Polje korisnika prazno\n");
+		return;
+	}
+
+	char trazenoPrezime[25];
+
+	printf("Unesite prezime koje trazite: ");
+	getchar();
+	scanf("%24[^\n]", trazenoPrezime);
+
+	int i, counter = 0;
+
+	for (i = 0; i < brojKorisnika; i++) {
+
+		if (strcmp(trazenoPrezime, (polje + i)->prezime) == 0) {
+			
+			printf("ID: %d  Ime: %s  Prezime: %s  Adresa: %s  Godine: %d  Trenutno posuduje: %s  ID posudenog automobila: %d\n\n",
+				(polje + i)->id,
+				(polje + i)->ime,
+				(polje + i)->prezime,
+				(polje + i)->adresa,
+				(polje + i)->godine,
+				(polje + i)->trenutnoPosuduje == 1 ? "Da" : "Ne",
+				(polje + i)->idAutomobila);
+
+			counter++;
+		}
+	}
+
+	if (counter == 0) {
+		printf("Nema korisnika s unesenim prezimenom\n");
+		return;
+	}
+} 
+
+void pronadiAutomobilPoMarki(AUTOMOBIL* polje) {
+
+	if (polje == NULL) {
+		printf("Polje automobila prazno\n");
+		return;
+	}
+
+	char trazenaMarka[25];
+
+	printf("Unesite marku koje trazite: ");
+	getchar();
+	scanf("%24[^\n]", trazenaMarka);
+
+	int i, counter = 0;
+
+	polje = sortitajPoCijeni(polje);
+
+	printf("\n");
+
+	for (i = 0; i < brojAutomobila; i++) {
+
+		if (strcmp(trazenaMarka, (polje + i)->marka) == 0) {
+
+			printf("ID: %d  Marka: %s  Model: %s  Godiste: %d.  Boja: %s  Cijena: %d HRK Trenutno posuden: %s ID korisnika: %d\n\n",
+				(polje + i)->id,
+				(polje + i)->marka,
+				(polje + i)->model,
+				(polje + i)->godiste,
+				(polje + i)->boja,
+				(polje + i)->cijenaPoDanu,
+				(polje + i)->trenutnoPosuden == 1 ? "Da" : "Ne",
+				(polje + i)->idKorisnika);
+
+			counter++;
+		}
+	}
+
+	if (counter == 0) {
+		printf("Nema automobila te marke\n");
+		return;
+	}
+}
+
