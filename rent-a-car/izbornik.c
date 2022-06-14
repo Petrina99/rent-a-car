@@ -87,10 +87,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
 
-		if (poljeKorisnika == NULL) {
-			exit(EXIT_FAILURE);
-		}
-
 		pronadeniKorisnik = (KORISNIK*)pronadiKorisnika(poljeKorisnika);
 
 		if (pronadeniKorisnik != NULL) {
@@ -111,10 +107,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 		}
 
 		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
-
-		if (poljeAutomobila == NULL) {
-			exit(EXIT_FAILURE);
-		}
 
 		pronadeniAutomobil = (AUTOMOBIL*)pronadiAutomobil(poljeAutomobila);
 
@@ -137,10 +129,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
 
-		if (poljeKorisnika == NULL) {
-			exit(EXIT_FAILURE);
-		}
-
 		pronadiKorisnikaPrezime(poljeKorisnika);
 		break;
 	case 9:
@@ -150,10 +138,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 		}
 
 		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
-
-		if (poljeAutomobila == NULL) {
-			exit(EXIT_FAILURE);
-		}
 
 		pronadiAutomobilPoMarki(poljeAutomobila);
 		break;
@@ -165,10 +149,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
 
-		if (poljeAutomobila == NULL) {
-			exit(EXIT_FAILURE);
-		}
-
 		ispisiSlobodneAutomobile(poljeAutomobila);
 		break;
 	case 11:
@@ -178,10 +158,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 		}
 
 		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
-
-		if (poljeKorisnika == NULL) {
-			exit(EXIT_FAILURE);
-		}
 
 		ispisiKorisnikeKojiIznajmljuju(poljeKorisnika);
 		break;
@@ -193,10 +169,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
 
-		if (poljeKorisnika == NULL) {
-			exit(EXIT_FAILURE);
-		}
-
 		azurirajKorisnika(poljeKorisnika, datKorisnici);
 		break;
 	case 13:
@@ -206,10 +178,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 		}
 
 		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
-
-		if (poljeAutomobila == NULL) {
-			exit(EXIT_FAILURE);
-		}
 
 		azurirajAutomobil(poljeAutomobila, datAuti);
 		break;
@@ -221,10 +189,6 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
 
-		if (poljeAutomobila == NULL) {
-			exit(EXIT_FAILURE);
-		}
-
 		brisanjeAutomobila(poljeAutomobila, datAuti);
 		break;
 	case 15:
@@ -235,11 +199,24 @@ int izbornik(const char* const datKorisnici, const char* const datAuti, const ch
 
 		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
 
-		if (poljeKorisnika == NULL) {
-			exit(EXIT_FAILURE);
+		brisanjeKorisnika(poljeKorisnika, datKorisnici);
+		break;
+	case 16:
+		if (poljeKorisnika != NULL) {
+			free(poljeKorisnika);
+			poljeKorisnika = NULL;
 		}
 
-		brisanjeKorisnika(poljeKorisnika, datKorisnici);
+		poljeKorisnika = (KORISNIK*)ucitajKorisnike(datKorisnici);
+
+		if (poljeAutomobila != NULL) {
+			free(poljeAutomobila);
+			poljeAutomobila = NULL;
+		}
+
+		poljeAutomobila = (AUTOMOBIL*)ucitajAutomobile(datAuti);
+
+		iznajmljivanje(poljeKorisnika, poljeAutomobila, datKorisnici, datAuti, datRacun);
 		break;
 	default:
 		odgovor = 0;

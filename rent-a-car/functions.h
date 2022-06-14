@@ -21,5 +21,6 @@ void azurirajKorisnika(KORISNIK*, const char* const);
 void azurirajAutomobil(AUTOMOBIL*, const char* const);
 void pronadiKorisnikaPrezime(KORISNIK* const);
 void pronadiAutomobilPoMarki(AUTOMOBIL*);
+void iznajmljivanje(KORISNIK*, AUTOMOBIL*, const char* const, const char* const, const char* const);
 
 #endif

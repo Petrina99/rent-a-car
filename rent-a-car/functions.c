@@ -391,7 +391,7 @@ void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 		return;
 	}
 
-	FILE* fp = fopen(dat, "wb");
+	FILE* fp = fopen(dat, "rb+");
 
 	if (fp == NULL) {
 		perror("Brisanje automobila");
@@ -406,11 +406,13 @@ void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 
 	do {
 		scanf("%d", &trazeniId);
-
 		if (trazeniId < 1 || trazeniId > brojAutomobila) {
 			printf("Automobil s unesenim ID-em ne postoji. Unesite ID koji postoji: ");
 		}
-	} while (trazeniId < 1 || trazeniId > brojAutomobila);
+		if ((polje + trazeniId - 1)->trenutnoPosuden == 1) {
+			printf("Automobil s unesenim ID-em je trenutno posuden i nemoguce ga je obrisati u ovom trenutku.");
+		}
+	} while (trazeniId < 1 || trazeniId > brojAutomobila || (polje + trazeniId - 1)->trenutnoPosuden == 1);
 
 	AUTOMOBIL* pomocnoPolje = (AUTOMOBIL*)calloc(brojAutomobila - 1, sizeof(AUTOMOBIL));
 
@@ -429,7 +431,7 @@ void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 			counter++;
 		}
 	}
-
+	
 	free(pomocnoPolje);
 	pomocnoPolje = NULL;
 
@@ -448,7 +450,7 @@ void brisanjeKorisnika(KORISNIK* const polje, const char* const dat) {
 		return;
 	}
 
-	FILE* fp = fopen(dat, "wb");
+	FILE* fp = fopen(dat, "rb+");
 
 	if (fp == NULL) {
 		perror("Brisanje korisnika");
@@ -463,11 +465,14 @@ void brisanjeKorisnika(KORISNIK* const polje, const char* const dat) {
 
 	do {
 		scanf("%d", &trazeniId);
-
 		if (trazeniId < 1 || trazeniId > brojKorisnika) {
 			printf("Korisnik s unesenim ID-em ne postoji. Unesite ID koji postoji: ");
 		}
-	} while (trazeniId < 1 || trazeniId > brojKorisnika);
+		if ((polje + trazeniId - 1)->trenutnoPosuduje == 1) {
+			printf("Korisnik s unesenim ID-em trenutno posuduje automobil i nemoguce ga je obrisati prije nego li ga vrati.\n");
+			return;
+		}
+	} while (trazeniId < 1 || trazeniId > brojKorisnika || (polje + trazeniId - 1)->trenutnoPosuduje == 1);
 
 	KORISNIK* pomocnoPolje = (KORISNIK*)calloc(brojKorisnika - 1, sizeof(KORISNIK));
 
@@ -672,8 +677,6 @@ void pronadiAutomobilPoMarki(AUTOMOBIL* polje) {
 
 	int i, counter = 0;
 
-	polje = sortitajPoCijeni(polje);
-
 	printf("\n");
 
 	for (i = 0; i < brojAutomobila; i++) {
@@ -700,3 +703,124 @@ void pronadiAutomobilPoMarki(AUTOMOBIL* polje) {
 	}
 }
 
+void iznajmljivanje(KORISNIK* poljeKorisnika, AUTOMOBIL* poljeAutomobila, const char* const datKorisnici, const char* const datAuti, const char* const racun) {
+
+	if (poljeKorisnika == NULL) {
+		printf("Polje korisnika prazno\n");
+		return;
+	}
+
+	if (poljeAutomobila == NULL) {
+		printf("Polje automobila prazno\n");
+		return;
+	}
+
+	FILE* fpk = fopen(datKorisnici, "rb+");
+
+	if (fpk == NULL) {
+		perror("Ucitavanje korisnika");
+		exit(EXIT_FAILURE);
+	}
+
+	FILE* fpa = fopen(datAuti, "rb+");
+
+	if (fpa == NULL) {
+		perror("Ucitavanje automobila");
+		exit(EXIT_FAILURE);
+	}
+
+	FILE* fpr = fopen(racun, "w");
+
+	if (fpr == NULL) {
+		printf("Pogreska pri stvaranju racuna");
+		return;
+	}
+
+	int trazeniClan;
+
+	ispisiSveKorisnike(poljeKorisnika);
+
+	printf("\nUnesite ID clana koji posuduje automobil: ");
+
+	do {
+		scanf("%d", &trazeniClan);
+
+		if (trazeniClan < 1 || trazeniClan > brojKorisnika) {
+			printf("Korisnik s unesenim ID-om ne postoji, unesite ispravan ID: ");
+		}
+	} while (trazeniClan < 1 || trazeniClan > brojKorisnika);
+
+	printf("Odaberite jedan od slobodnih automobila\n");
+
+	ispisiSlobodneAutomobile(poljeAutomobila);
+
+	int trazeniAutomobil = 0;
+
+	printf("Unesite ID automobila kojeg zelite iznajmiti: ");
+
+	do {
+		scanf("%d", &trazeniAutomobil);
+
+		if ((poljeAutomobila + trazeniAutomobil)->trenutnoPosuden == 1) {
+			printf("Odabrali ste automobil koji se trenutno posuduje, odaberite neki drugi automobil: ");
+			ispisiSlobodneAutomobile(poljeAutomobila);
+		}
+
+		if (trazeniAutomobil < 1 || trazeniAutomobil > brojAutomobila) {
+			printf("Automobil s unesenim ID-om ne postoji, unesite ispravan ID: ");
+			ispisiSlobodneAutomobile(poljeAutomobila);
+		}
+	} while ((poljeAutomobila + trazeniAutomobil)->trenutnoPosuden == 1 || trazeniAutomobil < 1 || trazeniAutomobil > brojAutomobila);
+
+	(poljeKorisnika + trazeniClan - 1)->trenutnoPosuduje = 1;
+	(poljeKorisnika + trazeniClan - 1)->idAutomobila = trazeniAutomobil;
+
+	(poljeAutomobila + trazeniAutomobil - 1)->trenutnoPosuden = 1;
+	(poljeAutomobila + trazeniAutomobil - 1)->idKorisnika = trazeniClan;
+
+	rewind(fpk);
+	fseek(fpk, sizeof(int) * 1, SEEK_CUR);
+	fseek(fpk, sizeof(KORISNIK) * (trazeniClan - 1), SEEK_CUR);
+	fwrite((poljeKorisnika + trazeniClan - 1), sizeof(KORISNIK), 1, fpk);
+
+	rewind(fpa);
+	fseek(fpa, sizeof(int) * 1, SEEK_CUR);
+	fseek(fpa, sizeof(AUTOMOBIL) * (trazeniAutomobil - 1), SEEK_CUR);
+	fwrite((poljeAutomobila + trazeniAutomobil - 1), sizeof(AUTOMOBIL), 1, fpa);
+
+	fclose(fpa);
+	fclose(fpk);
+
+	int brojDana;
+
+	printf("Koliko dana zelite posudivati automobil (max 30 dana): ");
+
+	do {
+		scanf("%d", &brojDana);
+
+		if (brojDana < 1 || brojDana > 30) {
+			printf("Nemozete posudivati automobil toliko dana\n");
+		}
+	} while (brojDana < 1 || brojDana > 30);
+
+	int brojRacuna = 0 + (float)rand() / RAND_MAX * (99999 - 0);
+
+	fprintf(fpr, "===================================================\n\n");
+	fprintf(fpr, "\t\t RENT-A-CAR OSIJEK\n\n");
+	fprintf(fpr, "===================================================\n\n");
+	fprintf(fpr, "Racun broj: %d\n", brojRacuna);
+	fprintf(fpr, "===================================================\n\n");
+	fprintf(fpr, "Ime : %s\n", (poljeKorisnika + trazeniClan - 1)->ime);
+	fprintf(fpr, "Prezime : %s\n", (poljeKorisnika + trazeniClan - 1)->prezime);
+	fprintf(fpr, "Adresa : %s\n", (poljeKorisnika + trazeniClan - 1)->adresa);
+	fprintf(fpr, "ID automobila : %d\n", (poljeAutomobila + trazeniAutomobil - 1)->id);
+	fprintf(fpr, "Marka : %s\n", (poljeAutomobila + trazeniAutomobil - 1)->marka);
+	fprintf(fpr, "Model : %s \n", (poljeAutomobila + trazeniAutomobil - 1)->model);
+	fprintf(fpr, "Boja : %s\n", (poljeAutomobila + trazeniAutomobil - 1)->boja);
+	fprintf(fpr, "Cijena po danu : %d HRK\n", (poljeAutomobila + trazeniAutomobil - 1)->cijenaPoDanu);
+	fprintf(fpr, "Trajanje posudbe : %d dana\n\n", brojDana);
+	fprintf(fpr, "===================================================\n\n");
+	fprintf(fpr, "Ukupna cijena za platit : %d HRK", brojDana * (poljeAutomobila + trazeniAutomobil - 1)->cijenaPoDanu);
+
+	fclose(fpr);
+}
