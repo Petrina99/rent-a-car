@@ -187,7 +187,7 @@ void* ucitajAutomobile(const char* const dat) {
 
 void ispisiSveKorisnike(const KORISNIK* const polje) {
 
-	if (polje == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje clanova prazno\n");
 		return;
 	}
@@ -234,7 +234,7 @@ void* sortitajPoCijeni(const AUTOMOBIL* polje) {
 // nacin ovdje predstavlja jel ispisujemo automobile po ID-u ili po cijeni
 void ispisiSveAutomobile(const AUTOMOBIL* polje, int nacin) {
 	
-	if (polje == NULL) {
+	if (brojAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return;
 	}
@@ -260,7 +260,7 @@ void ispisiSveAutomobile(const AUTOMOBIL* polje, int nacin) {
 
 void* pronadiKorisnika(KORISNIK* const polje) {
 
-	if (polje == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje clanova prazno\n");
 		return NULL;
 	}
@@ -291,7 +291,7 @@ void* pronadiKorisnika(KORISNIK* const polje) {
 
 void* pronadiAutomobil(AUTOMOBIL* const polje) {
 
-	if (polje == NULL) {
+	if (brojAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return NULL;
 	}
@@ -322,7 +322,7 @@ void* pronadiAutomobil(AUTOMOBIL* const polje) {
 
 void ispisiSlobodneAutomobile(AUTOMOBIL* const polje) {
 
-	if (polje == NULL) {
+	if (brojAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return;
 	}
@@ -354,7 +354,7 @@ void ispisiSlobodneAutomobile(AUTOMOBIL* const polje) {
 
 void ispisiKorisnikeKojiIznajmljuju(KORISNIK* const polje) {
 
-	if (polje == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje korisnika prazno");
 		return;
 	}
@@ -386,7 +386,7 @@ void ispisiKorisnikeKojiIznajmljuju(KORISNIK* const polje) {
 
 void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 
-	if (polje == NULL) {
+	if (brojAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return;
 	}
@@ -445,7 +445,7 @@ void brisanjeAutomobila(AUTOMOBIL* const polje, const char* const dat) {
 
 void brisanjeKorisnika(KORISNIK* const polje, const char* const dat) {
 
-	if (polje == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje korisnika prazno\n");
 		return;
 	}
@@ -505,7 +505,7 @@ void brisanjeKorisnika(KORISNIK* const polje, const char* const dat) {
 
 void azurirajKorisnika(KORISNIK* polje, const char* const dat) {
 
-	if (polje == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje korisnika prazno\n");
 		return;
 	}
@@ -563,7 +563,7 @@ void azurirajKorisnika(KORISNIK* polje, const char* const dat) {
 
 void azurirajAutomobil(AUTOMOBIL* polje, const char* const dat) {
 
-	if (polje == NULL) {
+	if (brojAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return;
 	}
@@ -626,7 +626,7 @@ void azurirajAutomobil(AUTOMOBIL* polje, const char* const dat) {
 
 void pronadiKorisnikaPrezime(KORISNIK* const polje) {
 	
-	if (polje == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje korisnika prazno\n");
 		return;
 	}
@@ -664,7 +664,7 @@ void pronadiKorisnikaPrezime(KORISNIK* const polje) {
 
 void pronadiAutomobilPoMarki(AUTOMOBIL* polje) {
 
-	if (polje == NULL) {
+	if (brojAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return;
 	}
@@ -705,12 +705,12 @@ void pronadiAutomobilPoMarki(AUTOMOBIL* polje) {
 
 void iznajmljivanje(KORISNIK* poljeKorisnika, AUTOMOBIL* poljeAutomobila, const char* const datKorisnici, const char* const datAuti, const char* const racun) {
 
-	if (poljeKorisnika == NULL) {
+	if (brojKorisnika == 0) {
 		printf("Polje korisnika prazno\n");
 		return;
 	}
 
-	if (poljeAutomobila == NULL) {
+	if (poljeAutomobila == 0) {
 		printf("Polje automobila prazno\n");
 		return;
 	}
@@ -799,7 +799,7 @@ void iznajmljivanje(KORISNIK* poljeKorisnika, AUTOMOBIL* poljeAutomobila, const 
 		scanf("%d", &brojDana);
 
 		if (brojDana < 1 || brojDana > 30) {
-			printf("Nemozete posudivati automobil toliko dana\n");
+			printf("Nemozete posudivati automobil toliko dana. Unesite manji broj dana (max 30): \n");
 		}
 	} while (brojDana < 1 || brojDana > 30);
 
@@ -821,6 +821,8 @@ void iznajmljivanje(KORISNIK* poljeKorisnika, AUTOMOBIL* poljeAutomobila, const 
 	fprintf(fpr, "Trajanje posudbe : %d dana\n\n", brojDana);
 	fprintf(fpr, "===================================================\n\n");
 	fprintf(fpr, "Ukupna cijena za platit : %d HRK", brojDana * (poljeAutomobila + trazeniAutomobil - 1)->cijenaPoDanu);
+
+	printf("Automobil uspjesno iznajmljen. Racun se nalazi u mapi programa.\n");
 
 	fclose(fpr);
 }
