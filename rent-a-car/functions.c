@@ -157,6 +157,8 @@ void* ucitajKorisnike(const char* const dat) {
 
 	fread(poljeKorisnika, sizeof(KORISNIK), brojKorisnika, fp);
 
+	fclose(fp);
+
 	return poljeKorisnika;
 }
 
@@ -181,6 +183,8 @@ void* ucitajAutomobile(const char* const dat) {
 	}
 
 	fread(poljeAutomobila, sizeof(AUTOMOBIL), brojAutomobila, fp);
+
+	fclose(fp);
 
 	return poljeAutomobila;
 }

@@ -1,8 +1,8 @@
 ﻿  functions.c
-D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(228,22): warning C4090: 'function': different 'const' qualifiers
-D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(228,37): warning C4090: 'function': different 'const' qualifiers
-D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(231,14): warning C4090: 'return': different 'const' qualifiers
-D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(806,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(232,22): warning C4090: 'function': different 'const' qualifiers
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(232,37): warning C4090: 'function': different 'const' qualifiers
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(235,14): warning C4090: 'return': different 'const' qualifiers
+D:\Faks\2.semestar\rent-a-car\rent-a-car\rent-a-car\functions.c(810,21): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   izbornik.c
   main.c
   Generating Code...
