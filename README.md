@@ -1,11 +1,11 @@
-Zavrsni projekt iz kolegija Programiranje 2
+# **Rent a car - C app**
+## Student project for Programming 2 course / Studentski projekt za kolegij Programiranje 2
 
-Program omogućuje korisniku posuđivanje automobila i ispis računa
+### **Description**
+- Application allows users to rent a car and print out an invoice
+- Inserting new cars, search by ID, sorting, updating and deleting users and cars from database
+- 2 databases: Users(korisnici.bin) and Cars(automobili.bin)
+- 1 text file: Invoice
 
-Unos, pretraga po ID-u, sortiranje, ažuriranje i brisanje korisnika i automobila
-
-Datoteka korisnici (id, ime, prezime, godine, adresa, telefon, trenutnoPosuduje, idAutomobila)
-
-Datoteka automobili (id, marka, godište, boja, trenutnoPosuden, idKorisnika)
-
-Tekstualna datoteka racun(id, idAutomobila, marka, idKorisnika, ime, prezime, telefon, trajanje, cijena, datumPosudbe)
+### **Technologies used**
+Made using programming language C
